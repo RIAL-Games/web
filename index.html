@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RIAL Games</title>
+<meta name="description" content="RIAL Games: The Illuminati Simulator, Presidents vs Zombies, Esoteric Simulator, Lingua VR.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05060a; --fg:#e8ecf4; --dim:#7c8599; --line:rgba(255,255,255,.09);
+  --cyan:#4df3ff; --mag:#ff4dd2; --lime:#b6ff4d; --amber:#ffb84d;
+  --sans:'Space Grotesk',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+#bg{position:fixed;inset:0;z-index:0;pointer-events:none}
+.glow{position:fixed;width:420px;height:420px;border-radius:50%;pointer-events:none;z-index:0;
+  background:radial-gradient(circle,rgba(77,243,255,.10),transparent 65%);transform:translate(-50%,-50%);left:-500px;top:-500px}
+.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.05;
+  background-image:repeating-linear-gradient(0deg,#fff 0 1px,transparent 1px 3px)}
+main,nav,footer{position:relative;z-index:2}
+
+nav{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;
+  padding:22px 4vw;font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+  mix-blend-mode:difference;z-index:10}
+nav a{color:#fff;text-decoration:none;margin-left:28px;opacity:.7;transition:opacity .2s}
+nav a:hover{opacity:1}
+nav .brand{font-weight:500;opacity:1;margin:0}
+
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:0 4vw;position:relative}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--cyan);text-transform:uppercase;margin-bottom:28px;
+  display:flex;align-items:center;gap:14px}
+.eyebrow::before{content:"";width:48px;height:1px;background:var(--cyan)}
+h1{font-weight:700;font-size:clamp(56px,13vw,210px);line-height:.88;letter-spacing:-.04em;position:relative;display:inline-block}
+h1 span{display:block}
+h1 .outline{color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.75)}
+.glitch{position:relative}
+.glitch::before,.glitch::after{content:attr(data-t);position:absolute;inset:0;overflow:hidden}
+.glitch::before{color:var(--cyan);animation:gl1 5s infinite steps(1);mix-blend-mode:screen}
+.glitch::after{color:var(--mag);animation:gl2 5s infinite steps(1);mix-blend-mode:screen}
+@keyframes gl1{0%,92%,100%{clip-path:inset(0 0 100% 0);transform:none}93%{clip-path:inset(12% 0 62% 0);transform:translate(-6px,0)}95%{clip-path:inset(58% 0 20% 0);transform:translate(5px,0)}97%{clip-path:inset(30% 0 48% 0);transform:translate(-3px,0)}}
+@keyframes gl2{0%,92%,100%{clip-path:inset(0 0 100% 0);transform:none}94%{clip-path:inset(40% 0 38% 0);transform:translate(6px,0)}96%{clip-path:inset(8% 0 76% 0);transform:translate(-5px,0)}98%{clip-path:inset(70% 0 8% 0);transform:translate(3px,0)}}
+.tag{margin-top:36px;max-width:520px;color:var(--dim);font-size:clamp(15px,1.4vw,18px);line-height:1.6;font-weight:300}
+.scroll{position:absolute;bottom:34px;left:4vw;font-family:var(--mono);font-size:11px;letter-spacing:.25em;color:var(--dim);display:flex;align-items:center;gap:14px;text-transform:uppercase}
+.scroll i{display:block;width:1px;height:46px;background:linear-gradient(var(--cyan),transparent);animation:drip 2s infinite ease-in-out;transform-origin:top}
+@keyframes drip{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+.orb{position:absolute;right:6vw;top:50%;width:min(34vw,460px);aspect-ratio:1;transform:translateY(-50%);opacity:.9}
+.orb svg{width:100%;height:100%;overflow:visible}
+.orb .r1{animation:spin 40s linear infinite;transform-origin:50% 50%}
+.orb .r2{animation:spin 26s linear infinite reverse;transform-origin:50% 50%}
+.orb .r3{animation:spin 60s linear infinite;transform-origin:50% 50%}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:800px){.orb{opacity:.28;right:-12vw;width:70vw}}
+
+.strip{border-block:1px solid var(--line);overflow:hidden;white-space:nowrap;padding:18px 0;position:relative;z-index:2;background:rgba(5,6,10,.6);backdrop-filter:blur(6px)}
+.strip div{display:inline-block;animation:marq 32s linear infinite;font-family:var(--mono);font-size:13px;letter-spacing:.28em;text-transform:uppercase;color:var(--dim)}
+.strip b{color:var(--fg);font-weight:400;margin:0 26px}
+.strip em{color:var(--cyan);font-style:normal}
+@keyframes marq{to{transform:translateX(-50%)}}
+
+.games{padding:14vh 4vw 6vh}
+.sec-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:8vh;font-family:var(--mono);font-size:12px;letter-spacing:.25em;text-transform:uppercase;color:var(--dim)}
+.sec-head h2{font-family:var(--sans);font-weight:300;font-size:clamp(28px,4vw,54px);letter-spacing:-.02em;color:var(--fg);text-transform:none}
+
+.game{--a:var(--cyan);display:grid;grid-template-columns:1.1fr 1fr;gap:4vw;align-items:center;
+  padding:7vh 0;border-top:1px solid var(--line);position:relative}
+.game:nth-child(even){grid-template-columns:1fr 1.1fr}
+.game:nth-child(even) .art{order:2}
+.game[data-i="1"]{--a:var(--lime)}
+.game[data-i="2"]{--a:var(--mag)}
+.game[data-i="3"]{--a:var(--amber)}
+.num{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--a);margin-bottom:22px}
+.game h3{font-weight:500;font-size:clamp(34px,5.4vw,84px);line-height:.95;letter-spacing:-.03em;margin-bottom:24px;transition:letter-spacing .5s,color .3s}
+.game:hover h3{letter-spacing:-.01em}
+.game p{color:var(--dim);font-weight:300;line-height:1.7;max-width:460px;font-size:16px;margin-bottom:30px}
+.meta{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:34px}
+.meta span{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase;padding:6px 12px;border:1px solid var(--line);color:var(--dim);border-radius:99px}
+.btn{display:inline-flex;align-items:center;gap:16px;font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--fg);text-decoration:none;padding:16px 26px;border:1px solid var(--a);position:relative;overflow:hidden;transition:color .35s}
+.btn::before{content:"";position:absolute;inset:0;background:var(--a);transform:translateX(-101%);transition:transform .45s cubic-bezier(.2,.8,.2,1);z-index:-1}
+.btn:hover{color:#05060a}
+.btn:hover::before{transform:none}
+.btn svg{width:16px;height:16px;transition:transform .35s}
+.btn:hover svg{transform:translateX(5px)}
+
+.art{aspect-ratio:1/.82;position:relative;border:1px solid var(--line);display:grid;place-items:center;overflow:hidden;
+  transform-style:preserve-3d;transition:transform .15s ease-out,border-color .3s;
+  background:radial-gradient(circle at 50% 50%,color-mix(in srgb,var(--a) 14%,transparent),transparent 65%)}
+.art:hover{border-color:var(--a)}
+.art::before,.art::after{content:"";position:absolute;width:14px;height:14px;border:1px solid var(--a)}
+.art::before{top:10px;left:10px;border-right:0;border-bottom:0}
+.art::after{bottom:10px;right:10px;border-left:0;border-top:0}
+.art svg{width:68%;height:auto;color:var(--a);overflow:visible;filter:drop-shadow(0 0 14px color-mix(in srgb,var(--a) 55%,transparent))}
+.art .scan{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--a),transparent);opacity:.5;animation:scan 4.5s linear infinite}
+@keyframes scan{from{top:-2%}to{top:102%}}
+.sp{animation:spin 30s linear infinite;transform-origin:100px 100px}
+.sp.rev{animation-direction:reverse;animation-duration:20s}
+.pulse{animation:pulse 3s ease-in-out infinite;transform-origin:100px 112px}
+@keyframes pulse{50%{transform:scale(1.18)}}
+.wave{stroke-dasharray:6 6;animation:dash 1.2s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-24}}
+.float{animation:float 5s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-6px)}}
+
+.rv{opacity:0;transform:translateY(40px);transition:opacity .9s cubic-bezier(.2,.8,.2,1),transform .9s cubic-bezier(.2,.8,.2,1)}
+.rv.in{opacity:1;transform:none}
+.game .art.rv{transition-delay:.1s}
+
+.contact{padding:16vh 4vw 8vh;text-align:left;border-top:1px solid var(--line)}
+.contact h2{font-weight:300;font-size:clamp(36px,8vw,130px);letter-spacing:-.04em;line-height:.95}
+.contact h2 b{font-weight:700;color:var(--cyan)}
+.contact a.mail{display:inline-block;margin-top:40px;font-family:var(--mono);font-size:13px;letter-spacing:.2em;color:var(--fg);text-decoration:none;border-bottom:1px solid var(--cyan);padding-bottom:6px;text-transform:uppercase}
+footer{display:flex;justify-content:space-between;padding:30px 4vw;border-top:1px solid var(--line);font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--dim);text-transform:uppercase}
+
+@media(max-width:800px){
+  .game,.game:nth-child(even){grid-template-columns:1fr}
+  .game:nth-child(even) .art{order:0}
+  nav a:not(.brand){display:none}
+  .sec-head span{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .rv{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+<div class="glow" id="glow"></div>
+<div class="grain"></div>
+
+<nav>
+  <a class="brand" href="#top">RIAL//GAMES</a>
+  <div><a href="#games">Games</a><a href="#contact">Contact</a></div>
+</nav>
+
+<main id="top">
+  <section class="hero">
+    <div class="eyebrow">Independent studio</div>
+    <h1 class="glitch" data-t="RIAL"><span>RIAL</span><span class="outline">GAMES</span></h1>
+    <p class="tag">Simulation, strategy and virtual reality. Four titles. Available on Steam.</p>
+    <div class="orb" aria-hidden="true">
+      <svg viewBox="0 0 400 400" fill="none" stroke="currentColor" style="color:#4df3ff">
+        <circle class="r3" cx="200" cy="200" r="190" stroke-width=".6" stroke-dasharray="2 10"/>
+        <g class="r1"><circle cx="200" cy="200" r="150" stroke-width=".8" stroke-dasharray="60 20 4 20"/><circle cx="200" cy="50" r="5" fill="currentColor" stroke="none"/></g>
+        <g class="r2"><circle cx="200" cy="200" r="105" stroke-width=".8" stroke="#ff4dd2" stroke-dasharray="30 14"/><circle cx="305" cy="200" r="4" fill="#ff4dd2" stroke="none"/></g>
+        <circle cx="200" cy="200" r="46" stroke-width="1"/>
+        <circle cx="200" cy="200" r="6" fill="currentColor" stroke="none"/>
+        <path d="M200 0V60M200 340V400M0 200H60M340 200H400" stroke-width=".6" opacity=".5"/>
+      </svg>
+    </div>
+    <div class="scroll"><i></i>Scroll</div>
+  </section>
+
+  <div class="strip" aria-hidden="true"><div id="marq"></div></div>
+
+  <section class="games" id="games">
+    <div class="sec-head"><h2>Catalogue</h2><span>04 titles / Steam</span></div>
+
+    <article class="game" data-i="0">
+      <div class="art rv" data-tilt>
+        <div class="scan"></div>
+        <svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1.4">
+          <circle class="sp" cx="100" cy="100" r="92" stroke-dasharray="3 9" stroke-width="1"/>
+          <polygon class="float" points="100,24 176,156 24,156"/>
+          <polygon class="float" points="100,50 152,140 48,140" stroke-width=".7" opacity=".5"/>
+          <g class="pulse"><path d="M62 112 Q100 80 138 112 Q100 144 62 112Z"/><circle cx="100" cy="112" r="11"/><circle cx="100" cy="112" r="4" fill="currentColor"/></g>
+          <path d="M100 10V0M100 190V200M10 100H0M190 100H200" opacity=".5"/>
+        </svg>
+      </div>
+      <div class="txt rv">
+        <div class="num">01 / SIM</div>
+        <h3>The Illuminati<br>Simulator</h3>
+        <p data-edit>Placeholder: replace with your own description of The Illuminati Simulator.</p>
+        <div class="meta"><span>Simulation</span><span>PC</span><span>Steam</span></div>
+        <a class="btn" data-game="The Illuminati Simulator" target="_blank" rel="noopener">View on Steam <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 8h13M9 3l5 5-5 5"/></svg></a>
+      </div>
+    </article>
+
+    <article class="game" data-i="1">
+      <div class="art rv" data-tilt>
+        <div class="scan"></div>
+        <svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1.4">
+          <circle cx="100" cy="100" r="90" stroke-width=".7" opacity=".5"/>
+          <polygon class="float" points="100,45 132.3,144.5 47.7,83 152.3,83 67.7,144.5"/>
+          <g class="sp rev">
+            <circle cx="100" cy="14" r="3" fill="currentColor"/><circle cx="168" cy="52" r="2.5" fill="currentColor"/>
+            <circle cx="182" cy="120" r="3" fill="currentColor"/><circle cx="128" cy="180" r="2.5" fill="currentColor"/>
+            <circle cx="52" cy="176" r="3" fill="currentColor"/><circle cx="16" cy="108" r="2.5" fill="currentColor"/>
+            <circle cx="38" cy="38" r="3" fill="currentColor"/>
+          </g>
+          <circle cx="100" cy="100" r="26" stroke-dasharray="2 6"/>
+        </svg>
+      </div>
+      <div class="txt rv">
+        <div class="num">02 / ACTION</div>
+        <h3>Presidents<br>vs Zombies</h3>
+        <p data-edit>Placeholder: replace with your own description of Presidents vs Zombies.</p>
+        <div class="meta"><span>Action</span><span>PC</span><span>Steam</span></div>
+        <a class="btn" data-game="Presidents vs Zombies" target="_blank" rel="noopener">View on Steam <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 8h13M9 3l5 5-5 5"/></svg></a>
+      </div>
+    </article>
+
+    <article class="game" data-i="2">
+      <div class="art rv" data-tilt>
+        <div class="scan"></div>
+        <svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1.3">
+          <g class="sp"><polygon points="100,20 169.3,140 30.7,140"/><polygon points="100,180 30.7,60 169.3,60"/></g>
+          <g class="sp rev"><circle cx="100" cy="100" r="62" stroke-dasharray="4 5"/></g>
+          <circle cx="100" cy="100" r="34"/>
+          <circle cx="100" cy="100" r="3" fill="currentColor"/>
+          <circle cx="100" cy="66" r="34" stroke-width=".6" opacity=".5"/>
+          <circle cx="100" cy="134" r="34" stroke-width=".6" opacity=".5"/>
+        </svg>
+      </div>
+      <div class="txt rv">
+        <div class="num">03 / SIM</div>
+        <h3>Esoteric<br>Simulator</h3>
+        <p data-edit>Placeholder: replace with your own description of Esoteric Simulator.</p>
+        <div class="meta"><span>Simulation</span><span>PC</span><span>Steam</span></div>
+        <a class="btn" data-game="Esoteric Simulator" target="_blank" rel="noopener">View on Steam <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 8h13M9 3l5 5-5 5"/></svg></a>
+      </div>
+    </article>
+
+    <article class="game" data-i="3">
+      <div class="art rv" data-tilt>
+        <div class="scan"></div>
+        <svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1.4">
+          <g class="float">
+            <rect x="30" y="62" width="140" height="70" rx="30"/>
+            <circle cx="70" cy="97" r="17"/><circle cx="130" cy="97" r="17"/>
+            <circle cx="70" cy="97" r="5" fill="currentColor"/><circle cx="130" cy="97" r="5" fill="currentColor"/>
+            <path d="M92 118h16" />
+          </g>
+          <path class="wave" d="M20 158 Q35 140 50 158 T80 158 T110 158 T140 158 T170 158 T200 158" />
+          <path class="wave" style="animation-direction:reverse;opacity:.5" d="M0 174 Q15 160 30 174 T60 174 T90 174 T120 174 T150 174 T180 174" />
+          <circle class="sp" cx="100" cy="100" r="92" stroke-dasharray="2 10" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="txt rv">
+        <div class="num">04 / VR</div>
+        <h3>Lingua VR</h3>
+        <p data-edit>Placeholder: replace with your own description of Lingua VR.</p>
+        <div class="meta"><span>Virtual reality</span><span>Steam VR</span></div>
+        <a class="btn" data-game="Lingua VR" target="_blank" rel="noopener">View on Steam <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 8h13M9 3l5 5-5 5"/></svg></a>
+      </div>
+    </article>
+  </section>
+
+  <section class="contact" id="contact">
+    <h2 class="rv">Build worlds.<br><b>Play them.</b></h2>
+    <a class="mail rv" href="mailto:you@rialgames.shop">you@rialgames.shop</a>
+  </section>
+</main>
+
+<footer><span>&copy; <span id="yr"></span> RIAL Games</span><span>rialgames.shop</span></footer>
+
+<script>
+/* ---- CONFIG: replace the search URLs with each game's direct Steam store URL ---- */
+const STEAM = {
+  "The Illuminati Simulator": "",
+  "Presidents vs Zombies":    "",
+  "Esoteric Simulator":       "",
+  "Lingua VR":                ""
+};
+/* ---------------------------------------------------------------------------------- */
+
+document.querySelectorAll('.btn[data-game]').forEach(b=>{
+  const n=b.dataset.game;
+  b.href = STEAM[n] || 'https://store.steampowered.com/search/?term='+encodeURIComponent(n);
+});
+document.getElementById('yr').textContent=new Date().getFullYear();
+
+/* marquee */
+const names=['The Illuminati Simulator','Presidents vs Zombies','Esoteric Simulator','Lingua VR'];
+let m='';for(let i=0;i<8;i++)names.forEach(n=>m+='<b>'+n+'</b><em>///</em>');
+document.getElementById('marq').innerHTML=m;
+
+/* reveal */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+/* cursor glow */
+const glow=document.getElementById('glow');
+const mouse={x:-999,y:-999};
+addEventListener('pointermove',e=>{mouse.x=e.clientX;mouse.y=e.clientY;glow.style.left=e.clientX+'px';glow.style.top=e.clientY+'px'});
+
+/* tilt */
+document.querySelectorAll('[data-tilt]').forEach(el=>{
+  el.addEventListener('pointermove',e=>{
+    const r=el.getBoundingClientRect(),px=(e.clientX-r.left)/r.width-.5,py=(e.clientY-r.top)/r.height-.5;
+    el.style.transform=`perspective(900px) rotateY(${px*10}deg) rotateX(${-py*10}deg)`;
+  });
+  el.addEventListener('pointerleave',()=>el.style.transform='');
+});
+
+/* particle network */
+const c=document.getElementById('bg'),x=c.getContext('2d');
+let w,h,pts=[],reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+function size(){
+  const d=Math.min(devicePixelRatio||1,2);
+  w=innerWidth;h=innerHeight;c.width=w*d;c.height=h*d;x.setTransform(d,0,0,d,0,0);
+  const n=Math.max(30,Math.min(110,Math.floor(w*h/17000)));
+  pts=Array.from({length:n},()=>({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25}));
+}
+addEventListener('resize',size);size();
+function tick(){
+  x.clearRect(0,0,w,h);
+  const sy=scrollY*.04;
+  for(const p of pts){
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.x<0)p.x=w;if(p.x>w)p.x=0;if(p.y<0)p.y=h;if(p.y>h)p.y=0;
+    const dx=p.x-mouse.x,dy=p.y-mouse.y,d=Math.hypot(dx,dy);
+    if(d<140){const f=(140-d)/140*1.6;p.x+=dx/d*f;p.y+=dy/d*f}
+  }
+  for(let i=0;i<pts.length;i++){
+    const a=pts[i];
+    x.fillStyle='rgba(77,243,255,.7)';
+    x.fillRect(a.x,(a.y-sy+h)%h,1.6,1.6);
+    for(let j=i+1;j<pts.length;j++){
+      const b=pts[j],d=Math.hypot(a.x-b.x,a.y-b.y);
+      if(d<125){x.strokeStyle=`rgba(77,243,255,${(1-d/125)*.22})`;x.lineWidth=.6;x.beginPath();x.moveTo(a.x,(a.y-sy+h)%h);x.lineTo(b.x,(b.y-sy+h)%h);x.stroke()}
+    }
+  }
+  if(!reduce)requestAnimationFrame(tick);
+}
+tick();
+</script>
+</body>
+</html>
